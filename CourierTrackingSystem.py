@@ -40,7 +40,6 @@ def list_all_shipments():
     """
     shipment_list = []
 
-    # Collect all shipment details
     for tracking_number, details in shipments.items():
         shipment = {
             "tracking_number": tracking_number,
@@ -60,15 +59,25 @@ def check_shipment_status(tracking_number):
     Checks the status of a specific shipment using the tracking number.
     """
     if tracking_number in shipments:
-        status = shipments[tracking_number]["status"]
-        return status
+        return shipments[tracking_number]["status"]
     else:
         return f"Tracking Number {tracking_number} not found."
 
 
+# Function 3: Count Shipments by Status
+def count_shipments_by_status():
+    """
+    Returns a dictionary counting the number of shipments per status.
+    Example: {'In Transit': 2, 'Delivered': 2, 'Out for Delivery': 1}
+    """
+    status_counts = {}
+    for details in shipments.values():
+        status = details["status"]
+        status_counts[status] = status_counts.get(status, 0) + 1
+    return status_counts
 
 
-# Main Function to Execute and Display Results
+# Optional: Main function to demonstrate functionality
 def main():
     # List all shipments
     print("\n--- List of All Shipments ---")
@@ -81,6 +90,11 @@ def main():
     print(f"\n--- Shipment Status for {tracking_number} ---")
     status = check_shipment_status(tracking_number)
     print(f"Status: {status}")
+
+    # Count shipments by status
+    print("\n--- Shipment Count by Status ---")
+    status_counts = count_shipments_by_status()
+    print(status_counts)
 
 
 if __name__ == "__main__":
